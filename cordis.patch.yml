@@ -1,0 +1,5 @@
+- insert:
+    - id: codex-style
+      name: dsh-codex-style
+    - id: codex-style-prompt
+      name: dsh-codex-style/prompt

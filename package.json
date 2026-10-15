@@ -1,0 +1,37 @@
+{
+  "name": "dsh-codex-style",
+  "version": "0.1.0",
+  "license": "Zlib",
+  "repository": { "type": "git", "url": "git+https://github.com/fegnze/dsh-codex-style.git" },
+  "files": ["cordis.patch.yml", "src/host.mjs", "src/prompt.mjs", "lib/client.js"],
+  "description": "Codex 风格：简洁交付与过程展示，保留原生文件变更卡",
+  "type": "module",
+  "main": "./src/host.mjs",
+  "exports": {
+    ".": "./src/host.mjs",
+    "./prompt": "./src/prompt.mjs",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json"
+  },
+  "dsh": {
+    "bundle": { "patch": "./cordis.patch.yml" },
+    "files": ["cordis.patch.yml"],
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-chat",
+        "@deepseek-ai/dsh-client-ui-slots",
+        "@deepseek-ai/dsh-client-ui-settings-general",
+        "@deepseek-ai/dsh-client-ui-theme"
+      ]
+    }
+  },
+  "engines": { "node": ">=22", "dsh": "0.2.0-rc.2" },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "prepack": "npm run build",
+    "pretest": "npm run build",
+    "test": "node --test test/*.test.mjs"
+  },
+  "devDependencies": { "esbuild": "^0.25.12", "happy-dom": "^20.0.0", "react": "^18.3.1", "react-dom": "^18.3.1" }
+}
