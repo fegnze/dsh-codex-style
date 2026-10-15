@@ -1,6 +1,6 @@
 # dsh-codex-style · Codex style
 
-[English](README.md) | [中文](README.zh.md)
+[English](README.md) | [中文](docs/zh.md)
 
 An independent, optional DeepSeek Harness output-style plugin targeting desktop **0.2.0-rc.2**. It does not modify DSH, Butler, or Aqua source code, and starts no service or resident process.
 

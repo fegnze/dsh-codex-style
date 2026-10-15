@@ -1,6 +1,6 @@
 # dsh-codex-style · Codex 风格
 
-[English](README.md) | [中文](README.zh.md)
+[English](../README.md) | [中文](zh.md)
 
 独立、可关闭的 DeepSeek Harness 输出风格插件，目标桌面版本为 **0.2.0-rc.2**。不修改 DSH、Butler 或 Aqua 源码，不启动服务或常驻进程。
 
