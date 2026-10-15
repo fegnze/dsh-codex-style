@@ -1,15 +1,17 @@
-# dsh-codex-style · Codex 风格
+# dsh-codex-style · Codex style
 
-独立、可关闭的 DeepSeek Harness 输出风格插件，目标桌面版本为 **0.2.0-rc.2**。不修改 DSH、Butler 或 Aqua 源码，不启动服务或常驻进程。
+[English](README.md) | [中文](README.zh.md)
 
-## 功能与边界
+An independent, optional DeepSeek Harness output-style plugin targeting desktop **0.2.0-rc.2**. It does not modify DSH, Butler, or Aqua source code, and starts no service or resident process.
 
-- **回答文案**：结论优先、简短交付、真实验证与明确的未执行项。提示词是表达偏好，不改变工具、权限、执行规则；不保证所有模型完全一致。
-- **过程展示**：复用原生工作步骤分组与折叠；用原始 `turn/start` / `turn/end` 时间显示用时。失败和停止回合不可整体折叠，最终答案、审批、错误和附件仍由 DSH 渲染。
-- **文件变更**：完整保留 DSH 原生变更卡、展开列表和 Diff 交互。不注册回合尾部卡片、不隐藏原生卡、不另行获取或缓存变更数据，也不添加撤销功能。
-- **兼容主题**：只调整聊天回答正文和自有过程标题，不覆盖 Aqua 的布局、玻璃效果与主题令牌。
+## Features and boundaries
 
-## 安装与构建
+- **Answer wording:** conclusions first, concise delivery, real verification, and explicit disclosure of checks not run. The prompt is a presentation preference, not a change to tools, permissions, or execution rules; identical behavior across all models is not guaranteed.
+- **Progress display:** reuses native work-step grouping and collapsing, with elapsed time derived from original `turn/start` / `turn/end` timestamps. Failed and stopped turns cannot be collapsed as a whole. DSH still renders final answers, approvals, errors, and attachments.
+- **File changes:** fully preserves DSH's native change cards, expanded lists, and Diff interactions. It registers no turn-tail card, hides no native cards, fetches or caches no separate change data, and adds no undo feature.
+- **Theme compatibility:** adjusts only chat answer text and its own progress headings; it does not override Aqua layout, glass effects, or theme tokens.
+
+## Install and build
 
 ```sh
 npm install --ignore-scripts
@@ -17,40 +19,40 @@ npm run build
 npm test
 ```
 
-包名与仓库名为 `dsh-codex-style`，仓库元数据为 `https://github.com/fegnze/dsh-codex-style`，本地目录为 `<workspace>/MySpace/dsh-plugins/dsh-codex-style`。Cordis 组件 ID `codex-style` / `codex-style-prompt`、设置组件 ID、已有浏览器偏好键和提示词 section ID 保持不变；客户端加载器与样式归属使用新包名。
+The package and repository are named `dsh-codex-style`, with repository metadata `https://github.com/fegnze/dsh-codex-style` and local directory `<workspace>/MySpace/dsh-plugins/dsh-codex-style`. Cordis component IDs `codex-style` / `codex-style-prompt`, settings component IDs, existing browser preference keys, and the prompt section ID remain unchanged. The client loader and style ownership use the new package name.
 
-npm 白名单只包含 patch、Host/提示词入口和构建后的客户端；不包含测试、依赖目录、浏览器快照或日志。源码沿用 MySpace 根仓库的 Zlib 许可证，副本见 `LICENSE`；依赖仍各自遵循其许可证。
+The npm allowlist includes the patch, Host/prompt entry points, built client, and English/Chinese READMEs; it excludes tests, dependency directories, browser snapshots, and logs. Source retains the MySpace root repository's Zlib license; see `LICENSE` for a copy. Dependencies retain their respective licenses.
 
-在 **desktop profile** 的插件管理器添加本目录的绝对路径，或通过 Agent 的 `plugin_manager` 安装本地目录。构建产物位于忽略的 `lib/`，安装之前必须先构建。当前采用本地 link 安装，源目录不可随意移动。
+Add this directory's absolute path in the **desktop profile** plugin manager, or install the local directory through the Agent's `plugin_manager`. Build artifacts live in the ignored `lib/` directory, so build before installing. The current setup uses a local link installation; do not move the source directory arbitrarily.
 
-安装或更新后刷新当前 DSH 窗口。独立插件没有开发 watcher：修改客户端源码后重新构建并刷新窗口，不承诺免刷新更新。不需要启动另一个 Web 服务。
+Refresh the current DSH window after installation or updates. This standalone plugin has no development watcher: rebuild and refresh after changing client source; refresh-free updates are not promised. There is no need to start another Web server.
 
-推荐在 **设置 → 通用设置** 把「工作步骤展示」与「性能与用量」设为「简洁」。插件不劫持这些宿主设置；用户可随时改为详细。桌面持久偏好可能优先于 profile 的默认值。
+Under **Settings → General settings**, the recommended setting for “Work-step display” and “Performance and usage” is “Compact”. The plugin does not override these host preferences; you can switch back to detailed display at any time. Persisted desktop preferences may take precedence over profile defaults.
 
-## 关闭与作用域
+## Disabling and scope
 
-- **仅关闭界面**：设置 → 通用设置 → **Codex 风格**。即时撤下自有 CSS 和过程标题，恢复原生渲染；原生文件变更卡始终保留。该开关按浏览器来源保存，不改变模型提示词和原生工作步骤偏好。
-- **仅关闭文案偏好**：插件管理中关闭 `codex-style-prompt`（模块 `dsh-codex-style/prompt`）。
-- **整体关闭**：插件管理中关闭整个 `dsh-codex-style` 插件包。
+- **Disable only the UI:** Settings → General settings → **Codex 风格** (Codex style). This immediately removes the plugin's CSS and progress headings and restores native rendering; native file-change cards are always preserved. The switch is stored per browser origin and does not change the model prompt or native work-step preferences.
+- **Disable only wording preferences:** disable `codex-style-prompt` (module `dsh-codex-style/prompt`) in plugin management.
+- **Disable everything:** disable the entire `dsh-codex-style` bundle in plugin management.
 
-默认提示词在当前 profile 全局加入，界面用于该 profile 的会话；不新建或更改 Agent 预设、不改变默认模型。若只想给某个预设加文案偏好，关闭全局 `codex-style-prompt`，在该预设的 `plugins` 中声明 `dsh-codex-style/prompt` 即可。界面开关不是预设开关。
+By default the prompt is added globally to the current profile, and the UI applies to that profile's sessions. No Agent presets are created or changed, and the default model is unchanged. To apply wording preferences to only one preset, disable the global `codex-style-prompt` and declare `dsh-codex-style/prompt` in that preset's `plugins`. The UI switch is not a preset switch.
 
-## 样式生命周期与验证
+## Style lifecycle and verification
 
-DSH 的 Client 模块加载器会将未标记的 `style` 归到随后物化的模块，卸载该模块时删除。这不是通用共享样式层：本插件在样式进入 DOM **之前** 写入 `data-plugin` 和 `data-plugin-css`，只清理自己的样式标签。过程箭头同时声明 SVG 尺寸和内联尺寸，避免 CSS 缺失时无限放大。
+DSH's Client module loader attributes unmarked `style` tags to the module materialized next and removes them when that module unloads. This is not a shared general-purpose style layer: this plugin writes `data-plugin` and `data-plugin-css` **before** inserting its styles into the DOM, and removes only its own style tags. Progress arrows declare both SVG dimensions and inline dimensions to prevent unbounded enlargement when CSS is missing.
 
-`npm test` 每次先重建真实客户端包，然后验证：不注册或隐藏原生变更卡、样式归属在插入前存在、模拟其他模块认领/卸载不会误删样式、重复开关和卸载生命周期、错误/停止边界、真实计时与有界 SVG。
+Each `npm test` first rebuilds the real client bundle, then verifies: no registration or hiding of native change cards; style ownership before insertion; no accidental deletion when simulating another module claiming/unloading styles; repeated toggling and unload lifecycle; error/stop boundaries; real timing; and bounded SVGs.
 
-在现有宿主 `http://127.0.0.1:19387` 的当前会话验证：自绘卡数量为零，原生卡可见、展开后保留全部 24 条记录，原生文件按钮可打开侧栏 Diff；模拟加载器认领/卸载其他样式后，自有样式仍归属本插件，控制台与 Slot 错误均为零。
+A previous session in the existing host at `http://127.0.0.1:19387` verified zero custom-drawn cards, visible native cards retaining all 24 records when expanded, and native file buttons opening the sidebar Diff. After simulating the loader claiming/unloading other styles, this plugin still owned its styles, with zero console or Slot errors. This is a historical acceptance record, not a claim that the current installation has been revalidated.
 
-真实浏览器验收与 Happy DOM 组件测试分开说明。历史自绘卡的初次浏览器检查未覆盖其他插件后续加载/卸载，不能证明样式长期可靠；该实现已移除。原生变更卡的数据范围、可用期与 Diff 行为由 DSH 维护，不由本插件重新解释或重建。
+Real-browser acceptance and Happy DOM component tests are reported separately. The first browser check of the historical custom-card implementation did not cover later loading/unloading of other plugins and could not establish long-term style reliability; that implementation has been removed. DSH owns native change-card data scope, lifetime, and Diff behavior; this plugin does not reinterpret or rebuild them.
 
-## 结构
+## Layout
 
-- `src/prompt.mjs`：可独立卸载的表达偏好。
-- `src/host.mjs`：用于客户端发现的空 Host 入口。
-- `src/client.jsx`：过程标题、设置开关与样式生命周期。
-- `src/model.mjs`：真实用时和过程状态。
-- `src/style.css`：回答正文与过程标题的局部 CSS。
+- `src/prompt.mjs`: independently removable wording preferences.
+- `src/host.mjs`: empty Host entry for client discovery.
+- `src/client.jsx`: progress headings, settings switch, and style lifecycle.
+- `src/model.mjs`: actual elapsed time and progress state.
+- `src/style.css`: scoped CSS for answer text and progress headings.
 
-兼容边界固定于上述 DSH 版本。升级 DSH 后先读取其实际 Slot 和服务契约并重新验收，不通过版本豁免强行运行。
+Compatibility is pinned to the DSH version above. After upgrading DSH, read its actual Slot and service contracts and repeat acceptance checks; do not force execution through a version exemption.
