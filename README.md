@@ -4,6 +4,8 @@
 
 An independent, optional DeepSeek Harness output-style plugin targeting desktop **0.2.0-rc.2 and 0.2.1-rc.2**. It does not modify DSH, Butler, or Aqua source code, and starts no service or resident process.
 
+`engines.dsh` and the optional peer `@deepseek-ai/dsh-app-boot` both declare exactly `0.2.0-rc.2 || 0.2.1-rc.2`. The optional peer describes the host without installing another DSH runtime; it does not claim support for later prereleases. Recheck Client Slots and the `systemPrompt` service after upgrading DSH; local tests do not replace live App acceptance.
+
 ## Features and boundaries
 
 - **Answer wording:** conclusions first, concise delivery, real verification, and explicit disclosure of checks not run. The prompt is a presentation preference, not a change to tools, permissions, or execution rules; identical behavior across all models is not guaranteed.

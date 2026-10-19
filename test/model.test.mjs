@@ -2,6 +2,15 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { formatDuration, processView } from '../src/model.mjs';
 import { apply, STYLE_PROMPT } from '../src/prompt.mjs';
+import { readFileSync } from 'node:fs';
+
+test('DSH compatibility is exact without requiring another host', () => {
+  const pkg = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
+  const range = '0.2.0-rc.2 || 0.2.1-rc.2';
+  assert.equal(pkg.engines.dsh, range);
+  assert.equal(pkg.peerDependencies['@deepseek-ai/dsh-app-boot'], range);
+  assert.equal(pkg.peerDependenciesMeta['@deepseek-ai/dsh-app-boot'].optional, true);
+});
 
 test('duration uses recorded time and handles hours and missing timing', () => {
   assert.equal(formatDuration(167000), '2分钟 47秒');
